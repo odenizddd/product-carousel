@@ -598,6 +598,14 @@
                 updateFavoriteProducts(favoriteProducts);
             });
         });
+
+        const addToCartButtons = document.querySelectorAll(`.${PRODUCT_CAROUSEL_BUTTON_CLASSNAME}`);
+        addToCartButtons.forEach(button => {
+            button.addEventListener("click", (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+        });
         
     }
 
