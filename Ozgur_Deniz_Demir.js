@@ -9,24 +9,7 @@
         return;
     }
 
-    // ## DATA ## start
-
-    const productData = await fetch("https://gist.githubusercontent.com/sevindi/8bcbde9f02c1d4abe112809c974e1f49/raw/9bf93b58df623a9b16f1db721cd0a7a539296cf0/products.json")
-    .then(response => response.json())
-    .catch(error => {
-        console.error("Error fetching product data:", error);
-    });
-
-    // ## DATA ## end
-
-    // ## STATE ## start
-
-    const productCount = productData.length;
-    let productIndex = 0;
-    let reachedEnd = false;
-    const favoriteProducts = [];
-
-    // ## STATE ## end
+    // ## HOME PAGE GUARD ## end
 
     // ## CONSTANTS ## start
 
@@ -55,8 +38,24 @@
     const PRODUCT_CAROUSEL_DISCOUNT_CONTAINER_CLASSNAME = "product-carousel-discount-container" + UNIQUE_POSTFIX;
     const PRODUCT_CAROUSEL_HEART_BUTTON_CLASSNAME = "product-carousel-heart-button" + UNIQUE_POSTFIX;
     const NOT_VISIBLE_CLASSNAME = "not-visible" + UNIQUE_POSTFIX;
+    const FAVORITE_PRODUCTS_KEY = "favorite-products" + UNIQUE_POSTFIX;
+    const PRODUCT_DATA_KEY = "product-data" + UNIQUE_POSTFIX;
 
     // ## CONSTANTS ## end
+
+    // ## DATA ## start
+
+    const productData = await getProductData();
+
+    // ## DATA ## end
+
+    // ## STATE ## start
+
+    const productCount = productData.length;
+    let productIndex = 0;
+    let reachedEnd = false;
+
+    // ## STATE ## end
 
     // ## STYLES ## start
 
@@ -463,6 +462,48 @@
         return `carousel-card-${productId}-${UNIQUE_POSTFIX}`;
     }
 
+    async function getProductData() {
+        let productData = localStorage.getItem(PRODUCT_DATA_KEY);
+
+        if (!productData) {
+            productData = await fetch("https://gist.githubusercontent.com/sevindi/8bcbde9f02c1d4abe112809c974e1f49/raw/9bf93b58df623a9b16f1db721cd0a7a539296cf0/products.json")
+            .then(response => response.json())
+            .catch(error => {
+                console.error("Error fetching product data:", error);
+            });
+
+            localStorage.setItem(PRODUCT_DATA_KEY, JSON.stringify(productData));
+            return productData;
+        } else {
+            return JSON.parse(productData);
+        }
+
+    } 
+
+    function getFavoriteProducts() {
+        const favoriteProducts = localStorage.getItem(FAVORITE_PRODUCTS_KEY);
+        return favoriteProducts ? JSON.parse(favoriteProducts) : [];
+    }
+
+    function updateFavoriteProducts(favoriteProducts) {
+        localStorage.setItem(FAVORITE_PRODUCTS_KEY, JSON.stringify(favoriteProducts));
+    }
+
+    const updateHeartButtons = () => {
+        const favoriteProducts = getFavoriteProducts();
+
+        productData.forEach(product => {
+            const heartButton = document.querySelector(`#${getHTMLIdFromProductId(product.id)} .${PRODUCT_CAROUSEL_HEART_BUTTON_CLASSNAME}`);
+            const heartButtonIcon = heartButton.querySelector("svg");
+           
+            if (favoriteProducts.includes(product.id)) {
+                heartButtonIcon.setAttribute("fill", "currentColor");
+            } else {
+                heartButtonIcon.setAttribute("fill", "none");
+            }
+        });
+    }
+
     const setEventListeners = () => {
         const prevButton = document.querySelector(`.${PRODUCT_CAROUSEL_PREV_BUTTON_CLASSNAME}`);        
         prevButton.addEventListener("click", () => {
@@ -489,20 +530,21 @@
                 event.preventDefault();
                 event.stopPropagation();
 
+                const favoriteProducts = getFavoriteProducts();
+
                 if (favoriteProducts.includes(product.id)) {
                     favoriteProducts.splice(favoriteProducts.indexOf(product.id), 1);
                 } else {
                     favoriteProducts.push(product.id);
                 }
 
-                console.log(heartButton)
-                console.log(heartButtonIcon);
-
                 if (favoriteProducts.includes(product.id)) {
                     heartButtonIcon.setAttribute("fill", "currentColor");
                 } else {
                     heartButtonIcon.setAttribute("fill", "none");
                 }
+
+                updateFavoriteProducts(favoriteProducts);
             });
         });
         
@@ -519,6 +561,8 @@
         const anchorElement = getAnchorElement();
         const productCarousel = htmlFromString(getProductCarousel());
         insertNewElement(anchorElement, productCarousel);
+
+        updateHeartButtons();
 
         setEventListeners();
     }
