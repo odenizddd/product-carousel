@@ -72,7 +72,8 @@
 
             .${PRODUCT_CAROUSEL_CLASSNAME} {
                 padding-inline: 15px;
-                max-width: 1150px;
+                width: 1150px;
+                margin-inline: auto;
             }
 
             .${PRODUCT_CAROUSEL_HEADER_CLASSNAME} {
@@ -283,7 +284,43 @@
             .${PRODUCT_CAROUSEL_HEART_BUTTON_CLASSNAME}:hover {
                 border: 1px solid var(--primary-color-dark);
             }
-        
+
+            @media (min-width: 1480px) {
+                .${PRODUCT_CAROUSEL_CLASSNAME} {
+                    width: 1290px;
+                }
+            }
+
+            @media (max-width: 1480px) and (min-width: 1280px) {
+                .${PRODUCT_CAROUSEL_CLASSNAME} {
+                    width: 1150px;
+                }
+            }
+
+            @media (max-width: 1280px) and (min-width: 990px) {
+                .${PRODUCT_CAROUSEL_CLASSNAME} {
+                    width: 930px;
+                }
+            }
+
+            @media (max-width: 990px) and (min-width: 768px) {
+                .${PRODUCT_CAROUSEL_CLASSNAME} {
+                    width: 690px;
+                }
+            }
+
+            @media (max-width: 768px) and (min-width: 576px) {
+                .${PRODUCT_CAROUSEL_CLASSNAME} {
+                    width: 510px;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .${PRODUCT_CAROUSEL_CLASSNAME} {
+                    width: 100%;
+                }
+            }
+                
         `;
         
         document.head.appendChild(style);
@@ -431,11 +468,16 @@
         parentElement.insertBefore(newElement, anchorElement.nextSibling);
     }
 
+    function getProductCarouselViewportWidth() {
+        const productCarouselViewport = document.querySelector(`.${PRODUCT_CAROUSEL_VIEWPORT_CLASSNAME}`);
+        return productCarouselViewport.offsetWidth;
+    }
+
     function updateProductCarousel() {
         const productCarouselContent = document.querySelector(`.${PRODUCT_CAROUSEL_CONTENT_CLASSNAME}`);
 
         const oneItemWidth = 295;
-        const viewPortWidth = 1150;
+        const viewPortWidth = getProductCarouselViewportWidth();
         const totalScrollWidth = productCarouselContent.scrollWidth;
 
         if (totalScrollWidth - oneItemWidth * productIndex < viewPortWidth) {
