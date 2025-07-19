@@ -1,5 +1,14 @@
 (async () => {
 
+    // ## HOME PAGE GUARD ## start
+
+    const location = window.location.pathname;
+
+    if (location !== "/") {
+        console.log("wrong page");
+        return;
+    }
+
     // ## DATA ## start
 
     const productData = await fetch("https://gist.githubusercontent.com/sevindi/8bcbde9f02c1d4abe112809c974e1f49/raw/9bf93b58df623a9b16f1db721cd0a7a539296cf0/products.json")
