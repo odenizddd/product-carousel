@@ -225,146 +225,72 @@
     // ## COMPONENTS ## start
 
     function getProductCarouselHeader() {
-        const header = document.createElement("div");
-        header.className = PRODUCT_CAROUSEL_HEADER_CLASSNAME;
-
-        const heading = document.createElement("h2");
-        heading.className = PRODUCT_CAROUSEL_HEADING_CLASSNAME;
-        heading.textContent = PRODUCT_CAROUSEL_HEADING_TEXT;
-
-        header.appendChild(heading);
-
-        return header;
+        return `
+            <div class="${PRODUCT_CAROUSEL_HEADER_CLASSNAME}">
+                <h2 class="${PRODUCT_CAROUSEL_HEADING_CLASSNAME}">${PRODUCT_CAROUSEL_HEADING_TEXT}</h2>
+            </div>
+        `;
     }
 
     function getPrevButton() {
-        const prevButton = document.createElement("button");
-        prevButton.className = PRODUCT_CAROUSEL_PREV_BUTTON_CLASSNAME;
-        
-        prevButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>';
-
-        prevButton.addEventListener("click", () => {
-            if (productIndex > 0) {
-                productIndex--;
-                reachedEnd = false;
-                updateProductCarousel();
-            }
-        });
-        return prevButton;
+        return `
+            <button class="${PRODUCT_CAROUSEL_PREV_BUTTON_CLASSNAME}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
+            </button>
+        `;
     }
 
     function getNextButton() {
-        const nextButton = document.createElement("button");
-        nextButton.className = PRODUCT_CAROUSEL_NEXT_BUTTON_CLASSNAME;
-
-        nextButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>';
-
-        nextButton.addEventListener("click", () => {
-            if (productIndex < productCount - 1 && !reachedEnd) {
-                productIndex++;
-                updateProductCarousel();
-            }
-        });
-
-        return nextButton;
+        return `
+            <button class="${PRODUCT_CAROUSEL_NEXT_BUTTON_CLASSNAME}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg>
+            </button>
+        `;
     }
 
     function getProductCarouselCard({
         id, brand, name, url, img, price, original_price
     }) {
-        const card = document.createElement("div");
-        card.className = PRODUCT_CAROUSEL_CARD_CLASSNAME;
-
-        const image = document.createElement("img");
-        image.className = PRODUCT_CAROUSEL_IMAGE_CLASSNAME;
-        image.src = img;
-        image.alt = name;
-        card.appendChild(image);
-
-        const productInfo = document.createElement("div");
-        productInfo.className = PRODUCT_CAROUSEL_PRODUCT_INFO_CLASSNAME;
-
-        const _brand = document.createElement("span");
-        _brand.className = PRODUCT_CAROUSEL_BRAND_CLASSNAME;
-        _brand.className = PRODUCT_CAROUSEL_BRAND_CLASSNAME;
-        _brand.textContent = brand + " - ";
-
-        const _name = document.createElement("span");
-        _name.className = PRODUCT_CAROUSEL_NAME_CLASSNAME;
-        _name.className = PRODUCT_CAROUSEL_NAME_CLASSNAME;
-        _name.textContent = name;
-
-        const brandAndName = document.createElement("div");
-        brandAndName.className = PRODUCT_CAROUSEL_BRAND_AND_NAME_CLASSNAME;
-        brandAndName.appendChild(_brand);
-        brandAndName.appendChild(_name);
-
-        productInfo.appendChild(brandAndName);
-
-        const _price = document.createElement("span");
-        _price.className = PRODUCT_CAROUSEL_PRICE_CLASSNAME;
-        _price.textContent = price + " TL";
-
-        productInfo.appendChild(_price);
-
-        card.appendChild(productInfo);
-
-        const buttonContainer = document.createElement("div");
-        buttonContainer.className = PRODUCT_CAROUSEL_BUTTON_CONTAINER_CLASSNAME;
-
-        const button = document.createElement("button");
-        button.className = PRODUCT_CAROUSEL_BUTTON_CLASSNAME;
-        button.textContent = "Sepete Ekle";
-
-        buttonContainer.appendChild(button);
-        card.appendChild(buttonContainer);
-
-        const link = document.createElement("a");
-        link.href = url;
-        link.target = "_blank";
-        link.appendChild(card);
-        
-        return link;
+        return `
+            <a href="${url}" target="_blank">
+                <div class="${PRODUCT_CAROUSEL_CARD_CLASSNAME}">
+                    <img src="${img}" alt="${name}" class="${PRODUCT_CAROUSEL_IMAGE_CLASSNAME}">
+                    <div class="${PRODUCT_CAROUSEL_PRODUCT_INFO_CLASSNAME}">
+                        <div class="${PRODUCT_CAROUSEL_BRAND_AND_NAME_CLASSNAME}">
+                            <span class="${PRODUCT_CAROUSEL_BRAND_CLASSNAME}">${brand} - </span>
+                            <span class="${PRODUCT_CAROUSEL_NAME_CLASSNAME}">${name}</span>
+                        </div>
+                        <span class="${PRODUCT_CAROUSEL_PRICE_CLASSNAME}">${price} TL</span>
+                    </div>
+                    <div class="${PRODUCT_CAROUSEL_BUTTON_CONTAINER_CLASSNAME}">
+                        <button class="${PRODUCT_CAROUSEL_BUTTON_CLASSNAME}">Sepete Ekle</button>
+                    </div>
+                </div>
+            </a>
+        `;
     }
 
     function getProductCarouselContent() {
-
-        const productCarouselViewport = document.createElement("div");
-        productCarouselViewport.className = PRODUCT_CAROUSEL_VIEWPORT_CLASSNAME;
-
-        const content = document.createElement("div");
-        content.className = PRODUCT_CAROUSEL_CONTENT_CLASSNAME;
-        productData.forEach(product => {
-            const card = getProductCarouselCard(product);
-            content.appendChild(card);
-        });
-
-        productCarouselViewport.appendChild(content);
-
-        const prevButton = getPrevButton();
-        const nextButton = getNextButton();
-
-        const viewportWrapper = document.createElement("div");
-        viewportWrapper.className = PRODUCT_CAROUSEL_VIEWPORT_WRAPPER_CLASSNAME;
-
-        viewportWrapper.appendChild(prevButton);
-        viewportWrapper.appendChild(productCarouselViewport);
-        viewportWrapper.appendChild(nextButton);
-
-        return viewportWrapper;
+        return `
+            <div class=${PRODUCT_CAROUSEL_VIEWPORT_WRAPPER_CLASSNAME}>
+                ${getPrevButton()}
+                <div class=${PRODUCT_CAROUSEL_VIEWPORT_CLASSNAME}>
+                    <div class=${PRODUCT_CAROUSEL_CONTENT_CLASSNAME}>
+                        ${productData.map(product => getProductCarouselCard(product)).join("")}
+                    </div>
+                </div>
+                ${getNextButton()}
+            </div>
+        `;
     }
 
     function getProductCarousel() {
-        const productCarousel = document.createElement("div");
-        productCarousel.className = PRODUCT_CAROUSEL_CLASSNAME;
-        
-        const productCarouselHeader = getProductCarouselHeader();
-        productCarousel.appendChild(productCarouselHeader);
-
-        const productCarouselContent = getProductCarouselContent();
-        productCarousel.appendChild(productCarouselContent);
-
-        return productCarousel;
+        return `
+            <div class=${PRODUCT_CAROUSEL_CLASSNAME}>
+                ${getProductCarouselHeader()}
+                ${getProductCarouselContent()}
+            </div>
+        `;
     }
 
     // ## COMPONENTS ## end
@@ -423,6 +349,38 @@
         }
     }
 
+    function htmlToString(html) {
+        return html.outerHTML;
+    }
+
+    function htmlFromString(htmlString) {
+        const template = document.createElement('template');
+        template.innerHTML = htmlString.trim();
+        const node = template.content.firstChild;
+        
+        return node;
+    }
+
+    const setEventListeners = () => {
+        const prevButton = document.querySelector(`.${PRODUCT_CAROUSEL_PREV_BUTTON_CLASSNAME}`);        
+        prevButton.addEventListener("click", () => {
+            if (productIndex > 0) {
+                productIndex--;
+                reachedEnd = false;
+                updateProductCarousel();
+            }
+        });
+
+        const nextButton = document.querySelector(`.${PRODUCT_CAROUSEL_NEXT_BUTTON_CLASSNAME}`);
+        nextButton.addEventListener("click", () => {
+            if (productIndex < productCount - 1 && !reachedEnd) {
+                productIndex++;
+                updateProductCarousel();
+            }
+        });
+        
+    }
+
     // ## UTILITY FUNCTIONS ## end
 
     function main() {
@@ -432,8 +390,10 @@
         applyStyles();
 
         const anchorElement = getAnchorElement();
-        const productCarousel = getProductCarousel();
+        const productCarousel = htmlFromString(getProductCarousel());
         insertNewElement(anchorElement, productCarousel);
+
+        setEventListeners();
     }
 
     main();
