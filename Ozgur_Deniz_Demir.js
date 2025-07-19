@@ -37,6 +37,8 @@
     const PRODUCT_CAROUSEL_DISCOUNT_ICON_CLASSNAME = "product-carousel-discount-icon" + UNIQUE_POSTFIX;
     const PRODUCT_CAROUSEL_DISCOUNT_CONTAINER_CLASSNAME = "product-carousel-discount-container" + UNIQUE_POSTFIX;
     const PRODUCT_CAROUSEL_HEART_BUTTON_CLASSNAME = "product-carousel-heart-button" + UNIQUE_POSTFIX;
+    const DISCOUNT_COLOR_CLASSNAME = "discount-color" + UNIQUE_POSTFIX;
+    const NORMAL_COLOR_CLASSNAME = "normal-color" + UNIQUE_POSTFIX;
     const NOT_VISIBLE_CLASSNAME = "not-visible" + UNIQUE_POSTFIX;
     const FAVORITE_PRODUCTS_KEY = "favorite-products" + UNIQUE_POSTFIX;
     const PRODUCT_DATA_KEY = "product-data" + UNIQUE_POSTFIX;
@@ -151,6 +153,13 @@
                 font-size: 21px;
                 font-weight: 600;
                 line-height: 34px;
+            }
+
+            .${DISCOUNT_COLOR_CLASSNAME} {
+                color: var(--discount-color);
+            }
+
+            .${NORMAL_COLOR_CLASSNAME} {
                 color: rgb(125, 125, 125);
             }
 
@@ -393,7 +402,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="12" height="12" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"/></svg>
                                 </span>
                             </div>
-                        <span class="${PRODUCT_CAROUSEL_PRICE_CLASSNAME}">${price} TL</span>
+                        <span class="${PRODUCT_CAROUSEL_PRICE_CLASSNAME} ${hasDiscount ? DISCOUNT_COLOR_CLASSNAME : NORMAL_COLOR_CLASSNAME}">${price} TL</span>
                     </div>
                     <div class="${PRODUCT_CAROUSEL_BUTTON_CONTAINER_CLASSNAME}">
                         <button class="${PRODUCT_CAROUSEL_BUTTON_CLASSNAME}">Sepete Ekle</button>
